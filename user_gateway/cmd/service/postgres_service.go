@@ -6,6 +6,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"parallelSystems/user_gateway/cmd/db"
 	"parallelSystems/user_gateway/cmd/service/resources"
 )
 
@@ -15,12 +16,12 @@ func initPostgresService() {
 	if err != nil {
 		panic(err.Error())
 	}
-	SetConnection(conn)
+	db.SetConnection(conn)
 	logger.Log("PostgreSQL connection established successfully.")
 }
 
 func ClosePostgresConnection() {
-	conn := GetConnection()
+	conn := db.GetConnection()
 	err := conn.Close()
 	if err != nil {
 		panic(err.Error())

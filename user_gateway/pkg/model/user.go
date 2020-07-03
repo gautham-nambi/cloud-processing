@@ -1,6 +1,8 @@
 package model
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type User struct {
 	Id       uuid.UUID `db:"id"`
@@ -9,8 +11,7 @@ type User struct {
 }
 
 func (u *User) CreateUser() (user *User, err error) {
-	//TODO Create User
-	return &User{}, nil
+	
 }
 
 func (u *User) encryptPassword() {
