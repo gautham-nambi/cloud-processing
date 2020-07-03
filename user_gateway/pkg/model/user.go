@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/google/uuid"
+	"parallelSystems/user_gateway/pkg/utils/hasher"
 )
 
 type User struct {
@@ -10,15 +11,13 @@ type User struct {
 	Password string    `db:"password"`
 }
 
-func (u *User) CreateUser() (user *User, err error) {
-	
-}
-
-func (u *User) encryptPassword() {
-	//TODO Encrypt Password
-}
-
-func (u *User) VerifyPassword() bool {
-	//TODO Verify encrypted password
-	return false
+func (u *User) CheckPassword() (isCorrectPassword bool, err error) {
+	user, err := u.Get(u.Username)
+	if err != nil {
+		return false, err
+	}
+	cipherUtil := hasher.Input{
+		CipheredText: user.Password,
+	}
+	return cipherUtil.VerifyCipheredText(), nil
 }

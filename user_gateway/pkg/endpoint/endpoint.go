@@ -20,7 +20,7 @@ type AuthenticateResponse struct {
 }
 
 // MakeAuthenticateEndpoint returns an endpoint that invokes Authenticate on the service.
-func MakeAuthenticateEndpoint(s service.UserGatewayService) endpoint.Endpoint {
+func MakeAuthenticateEndpoint(s service.GatewayService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(AuthenticateRequest)
 		credentials, err := s.Authenticate(ctx, req.Details)

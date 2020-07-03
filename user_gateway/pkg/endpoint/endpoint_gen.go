@@ -15,7 +15,7 @@ type Endpoints struct {
 
 // New returns a Endpoints struct that wraps the provided service, and wires in all of the
 // expected endpoint middlewares
-func New(s service.UserGatewayService, mdw map[string][]endpoint.Middleware) Endpoints {
+func New(s service.GatewayService, mdw map[string][]endpoint.Middleware) Endpoints {
 	eps := Endpoints{AuthenticateEndpoint: MakeAuthenticateEndpoint(s)}
 	for _, m := range mdw["Authenticate"] {
 		eps.AuthenticateEndpoint = m(eps.AuthenticateEndpoint)
