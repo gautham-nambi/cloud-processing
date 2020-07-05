@@ -1,8 +1,9 @@
 package model
 
 import (
-	"github.com/google/uuid"
 	"parallelSystems/user_gateway/pkg/utils/hasher"
+
+	"github.com/google/uuid"
 )
 
 type User struct {
@@ -12,7 +13,7 @@ type User struct {
 }
 
 func (u *User) CheckPassword() (isCorrectPassword bool, err error) {
-	user, err := u.Get(u.Username)
+	user, err := u.Get()
 	if err != nil {
 		return false, err
 	}

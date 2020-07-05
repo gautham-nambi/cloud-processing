@@ -27,5 +27,6 @@ func (c *PostgresConf) GetPostgresConnectionString() string {
 		" password=" + c.Password +
 		" host=" + c.Host +
 		" dbname=" + c.Database +
-		" port=" + c.Port
+		" port=" + c.Port +
+		" sslmode=disable"
 }

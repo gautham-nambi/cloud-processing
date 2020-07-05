@@ -31,7 +31,8 @@ func ClosePostgresConnection() {
 
 func getConfiguration() *resources.PostgresConf {
 	pwd, _ := os.Getwd()
-	configuration, err := ioutil.ReadFile(pwd + "\\user_gateway\\cmd\\service\\resources\\configuration.yaml")
+	configuration, err := ioutil.ReadFile(pwd + "/user_gateway/cmd/service/resources/configuration.yaml")
+	// configuration, err := ioutil.ReadFile(pwd + "\\user_gateway\\cmd\\service\\resources\\configuration.yaml")
 	if err != nil {
 		panic(err.Error())
 	}
