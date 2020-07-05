@@ -10,12 +10,12 @@ import (
 	log "github.com/go-kit/kit/log"
 )
 
-// GatewayService describes the service.
-type GatewayService interface {
+// UserGatewayService describes the service.
+type UserGatewayService interface {
 	// Add your methods here
 	// e.x: Foo(ctx context.Context,s string)(rs string, err error)
 	Authenticate(ctx context.Context, details io.Login) (credentials io.Credentials, err error)
-	// SignUp(ctx context.Context, details io.Login) (credentials io.Credentials, err error)
+	SignUp(ctx context.Context, details io.Login) (credentials io.Credentials, err error)
 }
 
 type basicUserGatewayService struct {
@@ -51,16 +51,21 @@ func (b basicUserGatewayService) Authenticate(ctx context.Context, details io.Lo
 	return credentials, err
 }
 
-// NewBasicUserGatewayService returns a naive, stateless implementation of GatewayService.
-func NewBasicUserGatewayService() GatewayService {
+// NewBasicUserGatewayService returns a naive, stateless implementation of UserGatewayService.
+func NewBasicUserGatewayService() UserGatewayService {
 	return &basicUserGatewayService{}
 }
 
-// New returns a GatewayService with all of the expected middleware wired in.
-func New(middleware []Middleware) GatewayService {
-	var svc GatewayService = NewBasicUserGatewayService()
+// New returns a UserGatewayService with all of the expected middleware wired in.
+func New(middleware []Middleware) UserGatewayService {
+	var svc UserGatewayService = NewBasicUserGatewayService()
 	for _, m := range middleware {
 		svc = m(svc)
 	}
 	return svc
+}
+
+func (b *basicUserGatewayService) SignUp(ctx context.Context, details io.Login) (credentials io.Credentials, err error) {
+	// TODO implement the business logic of SignUp
+	return credentials, err
 }

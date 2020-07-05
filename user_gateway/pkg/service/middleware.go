@@ -8,17 +8,24 @@ import (
 )
 
 // Middleware describes a service middleware.
-type Middleware func(GatewayService) GatewayService
+type Middleware func(UserGatewayService) UserGatewayService
 
 type loggingMiddleware struct {
 	logger log.Logger
-	next   GatewayService
+	next   UserGatewayService
+}
+
+func (l loggingMiddleware) SignUp(ctx context.Context, details io.Login) (credentials io.Credentials, err error) {
+	defer func() {
+		l.logger.Log("method", "SignUp", "details", details, "credentials", credentials, "err", err)
+	}()
+	return l.next.SignUp(ctx, details)
 }
 
 // LoggingMiddleware takes a logger as a dependency
-// and returns a GatewayService Middleware.
+// and returns a UserGatewayService Middleware.
 func LoggingMiddleware(logger log.Logger) Middleware {
-	return func(next GatewayService) GatewayService {
+	return func(next UserGatewayService) UserGatewayService {
 		return &loggingMiddleware{logger, next}
 	}
 

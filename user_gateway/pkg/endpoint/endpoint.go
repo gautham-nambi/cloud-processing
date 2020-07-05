@@ -20,7 +20,7 @@ type AuthenticateResponse struct {
 }
 
 // MakeAuthenticateEndpoint returns an endpoint that invokes Authenticate on the service.
-func MakeAuthenticateEndpoint(s service.GatewayService) endpoint.Endpoint {
+func MakeAuthenticateEndpoint(s service.UserGatewayService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(AuthenticateRequest)
 		credentials, err := s.Authenticate(ctx, req.Details)
@@ -53,10 +53,40 @@ func (e Endpoints) Authenticate(ctx context.Context, details io.Login) (credenti
 	return response.(AuthenticateResponse).Credentials, response.(AuthenticateResponse).Err
 }
 
-// SignupRequest collects the request parameters for the Signup method.
-type SignupRequest struct{}
+// SignUpRequest collects the request parameters for the SignUp method.
+type SignUpRequest struct {
+	Details io.Login `json:"details"`
+}
 
-// SignupResponse collects the response parameters for the Signup method.
-type SignupResponse struct {
-	Err error `json:"err"`
+// SignUpResponse collects the response parameters for the SignUp method.
+type SignUpResponse struct {
+	Credentials io.Credentials `json:"credentials"`
+	Err         error          `json:"err"`
+}
+
+// MakeSignUpEndpoint returns an endpoint that invokes SignUp on the service.
+func MakeSignUpEndpoint(s service.UserGatewayService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(SignUpRequest)
+		credentials, err := s.SignUp(ctx, req.Details)
+		return SignUpResponse{
+			Credentials: credentials,
+			Err:         err,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r SignUpResponse) Failed() error {
+	return r.Err
+}
+
+// SignUp implements Service. Primarily useful in a client.
+func (e Endpoints) SignUp(ctx context.Context, details io.Login) (credentials io.Credentials, err error) {
+	request := SignUpRequest{Details: details}
+	response, err := e.SignUpEndpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(SignUpResponse).Credentials, response.(SignUpResponse).Err
 }
