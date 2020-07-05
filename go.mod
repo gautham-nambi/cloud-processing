@@ -26,6 +26,7 @@ require (
 	github.com/prometheus/client_golang v1.3.0
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/stretchr/testify v1.6.2-0.20200628121210-87a988cffbb9 // indirect
+	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8
 	github.com/yuin/goldmark v1.1.32 // indirect
 	go4.org v0.0.0-20200411211856-f5505b9728dd // indirect
 	golang.org/x/build v0.0.0-20200701200223-dd5ac55b812e // indirect
